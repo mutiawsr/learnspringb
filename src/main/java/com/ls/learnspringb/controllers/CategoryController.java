@@ -55,4 +55,18 @@ public class CategoryController {
         return view;
     }
 
+    @GetMapping("/deleteForm/{id}")
+    public ModelAndView deleteForm(@PathVariable Long id) {
+        ModelAndView view = new ModelAndView("category/deleteForm");
+        Category category = categoryRepository.findById(id).orElse(null);
+        view.addObject("category", category);
+        return view;
+    }
+
+    @GetMapping("/delete/{id}")
+    public ModelAndView deleteCategory(@PathVariable Long id) {
+        categoryRepository.deleteById(id);
+        return new ModelAndView("redirect:/category");
+    }
+    
 }
