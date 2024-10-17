@@ -9,24 +9,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ls.learnspringb.entities.Category;
-import com.ls.learnspringb.repositories.CategoryRepository;
+import com.ls.learnspringb.entities.Product;
+import com.ls.learnspringb.repositories.ProductRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @RestController
-@RequestMapping("/api/category")
-public class CategoryRestController {
+@RequestMapping("/api/product")
+public class ProductRestController {
     
     @Autowired
-    CategoryRepository categoryRepository;
+    ProductRepository productRepository;
 
     @GetMapping("")
-    public ResponseEntity<?> getAllCategory() {
+    public ResponseEntity<?> getAllProduct() {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
-        List<Category> categories = categoryRepository.findAll();
+        List<Product> products = productRepository.findAll();
         resultMap.put("status", 200);
         resultMap.put("message", "success");
-        resultMap.put("data", categories);
+        resultMap.put("data", products);
         return new ResponseEntity<>(resultMap, HttpStatus.OK);
     }
     
