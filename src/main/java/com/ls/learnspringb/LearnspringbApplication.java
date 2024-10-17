@@ -40,7 +40,7 @@ public class LearnspringbApplication {
 			Product indomie = new Product("Indomie", "indomie", "Instant Noodle", 1L, false);
 			Product harryPotter = new Product("Harry Potter", "harry-potter", "Fantasy Fiction Book", 3L, false);
 			Product doraemon = new Product("Doraemon", "doraemon", "Japanese Comic Book", 3L, false);
-			Product alice = new Product("Alice in Wonderland", "alice-in-wonderland", "English Children Novel", 3L, false);
+			Product alice = new Product("Alice In Wonderland", "alice-in-wonderland", "English Children Novel", 3L, false);
 
 			productRepository.save(bmw);
 			productRepository.save(tesla);
