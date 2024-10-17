@@ -11,6 +11,7 @@ import com.ls.learnspringb.entities.Category;
 import com.ls.learnspringb.repositories.CategoryRepository;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.PostMapping;
 
@@ -46,4 +47,12 @@ public class CategoryController {
         return new ModelAndView("redirect:/category");
     }
     
+    @GetMapping("/edit/{id}")
+    public ModelAndView edit(@PathVariable Long id) {
+        ModelAndView view = new ModelAndView("category/form");
+        Category category = categoryRepository.findById(id).orElse(null);
+        view.addObject("category", category);
+        return view;
+    }
+
 }
