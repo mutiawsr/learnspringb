@@ -23,10 +23,11 @@ public class Category extends BaseEntity {
         
     }
 
-    public Category(String name, String slug, String description) {
+    public Category(String name, String slug, String description, Boolean isDeleted) {
         this.name = name;
         this.slug = slug;
         this.description = description;
+        this.isDeleted = isDeleted;
     }
 
     @Id
@@ -42,6 +43,9 @@ public class Category extends BaseEntity {
 
     @Column(name = "description")
     private String description;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 
     // @OneToMany(mappedBy = "category", cascade = CascadeType.REMOVE)
     // List<Product> products;

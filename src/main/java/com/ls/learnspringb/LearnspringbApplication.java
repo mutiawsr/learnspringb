@@ -34,9 +34,9 @@ public class LearnspringbApplication {
 	@Bean
 	CommandLineRunner commandLineRunner() {
 		return args -> {
-			Category mainCourse = new Category("Main Course", "main-course", "Description of Main Course");
-			Category beverage = new Category("Beverage", "beverage", "Description of Beverage");
-			Category dessert = new Category("Dessert", "dessert", "Description of Dessert");
+			Category mainCourse = new Category("Main Course", "main-course", "Description of Main Course", false);
+			Category beverage = new Category("Beverage", "beverage", "Description of Beverage", false);
+			Category dessert = new Category("Dessert", "dessert", "Description of Dessert", false);
 
 			categoryRepository.save(mainCourse);
 			categoryRepository.save(beverage);

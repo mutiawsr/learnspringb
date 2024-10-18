@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-
 @RestController
 @RequestMapping("/api/variant")
 public class VariantRestController {
@@ -52,7 +51,7 @@ public class VariantRestController {
     }
     
     @PostMapping("")
-    public ResponseEntity<?> postMethodName(@RequestBody VariantRequestDto variantRequestDto) {
+    public ResponseEntity<?> saveVariant(@RequestBody VariantRequestDto variantRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
