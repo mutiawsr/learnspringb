@@ -71,7 +71,7 @@ public class ProductRestController {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         try {
-            List<Product> products = productService.getAllProductsActive();
+            List<Product> products = productService.getAllActiveProducts();
             List<ProductResponseDto> productResponseDtos = new ArrayList<>();
             for (Product product : products) {
                 ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
@@ -133,7 +133,7 @@ public class ProductRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProductById(@PathVariable Long id) {
+    public ResponseEntity<?> softDeleteProductById(@PathVariable Long id) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         try {
             if (productService.getActiveProductById(id) == null) {

@@ -20,6 +20,9 @@ import com.ls.learnspringb.services.CategoryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
 
 
 @RestController
@@ -70,6 +73,28 @@ public class CategoryRestController {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         try {
             Category category = new Category();
+            modelMapper.map(categoryRequestDto, category);
+            category = categoryService.saveCategory(category);
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", category);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Update is_deleted = false data only
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateCategoryById(@PathVariable Long id, @RequestBody CategoryRequestDto categoryRequestDto) {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        try {
+            Category category = categoryService.getActiveCategoryById(id);
             modelMapper.map(categoryRequestDto, category);
             category = categoryService.saveCategory(category);
             resultMap.put("status", 200);

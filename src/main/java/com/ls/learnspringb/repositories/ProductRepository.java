@@ -18,7 +18,7 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     // get all products where is_deleted = false
     @Query(value = "select * from products where is_deleted = false", nativeQuery = true)
-    List<Product> getAllProductsActive();
+    List<Product> getAllActiveProducts();
 
     @Query(value = "select * from products where id = :id and is_deleted = false", nativeQuery = true)
     Product getActiveProductById(@Param("id") Long id);

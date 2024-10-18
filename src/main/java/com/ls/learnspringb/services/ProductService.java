@@ -8,7 +8,7 @@ public interface ProductService {
 
     List<Product> getAllProducts();
 
-    List<Product> getAllProductsActive();
+    List<Product> getAllActiveProducts();
 
     // get all products including soft deleted products
     Product getProductById(Long id);
