@@ -118,11 +118,6 @@ public class ProductRestController {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         try {
             Product product = productService.getActiveProductById(id);
-            if (product == null) {
-                resultMap.put("status", 404);
-                resultMap.put("message", "Data Not Found");
-                return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
-            }
             modelMapper.map(productRequestDto, product);
             product = productService.saveProduct(product);
             resultMap.put("status", 200);
@@ -141,13 +136,16 @@ public class ProductRestController {
     public ResponseEntity<?> deleteProductById(@PathVariable Long id) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         try {
-            productService.deleteProductById(id);
+            if (productService.getActiveProductById(id) == null) {
+                throw new Exception();
+            }
+            productService.softDeleteProductById(id);
             resultMap.put("status", 200);
-            resultMap.put("message", "Delete Success");
+            resultMap.put("message", "success");
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("status", 500);
-            resultMap.put("message", "Delete Failed");
+            resultMap.put("message", "failed");
             resultMap.put("error", e);
             return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
