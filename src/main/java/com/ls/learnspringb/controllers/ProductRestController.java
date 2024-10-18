@@ -17,6 +17,7 @@ import com.ls.learnspringb.dtos.responses.ProductResponseDto;
 import com.ls.learnspringb.entities.Product;
 import com.ls.learnspringb.services.ProductService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -103,6 +104,22 @@ public class ProductRestController {;
         } catch (Exception e) {
             resultMap.put("status", 500);
             resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteProductById(@PathVariable Long id) {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        try {
+            productService.deleteProductById(id);
+            resultMap.put("status", 200);
+            resultMap.put("message", "Delete success");
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "Delete failed");
             resultMap.put("error", e);
             return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
