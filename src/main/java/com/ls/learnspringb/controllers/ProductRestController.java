@@ -29,6 +29,7 @@ public class ProductRestController {;
     @Autowired
     ProductService productService;
 
+    // Non DTO
     // @GetMapping("")
     // public ResponseEntity<?> getAllProducts_nonDTO() {
     //     LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();

@@ -1,5 +1,7 @@
 package com.ls.learnspringb.entities;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -14,17 +16,20 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table(name = "product")
-public class Product extends BaseEntity {
-    public Product() {
+@Table(name = "variant")
+public class Variant extends BaseEntity {
+    
+    public Variant() {
 
     }
 
-    public Product(String name, String slug, String description, Long categoryId, Boolean isDeleted) {
+    public Variant(String name, String slug, String description, BigDecimal price, BigDecimal stock, Long productId, Boolean isDeleted) {
         this.name = name;
         this.slug = slug;
         this.description = description;
-        this.categoryId = categoryId;
+        this.price = price;
+        this.stock = stock;
+        this.productId = productId;
         this.isDeleted = isDeleted;
     }
 
@@ -36,21 +41,27 @@ public class Product extends BaseEntity {
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "slug", length = 20, unique = true)
+    @Column(name = "slug", length = 20)
     private String slug;
 
-    @Column(name = "description", length =  500, nullable = true)
+    @Column(name = "description", length = 500, nullable = true)
     private String description;
+
+    @Column(name = "price", precision = 18, scale = 2)
+    private BigDecimal price;
+
+    @Column(name = "stock", precision = 18, scale = 2)
+    private BigDecimal stock;
 
     @Column(name = "is_deleted")
     private Boolean isDeleted;
 
-    // Many Product to One Category
+    // Many Variant to One Product
     @ManyToOne
-    @JoinColumn(name = "category_id", insertable = false, updatable = false)
-    private Category category;
+    @JoinColumn(name = "product_id", insertable = false, updatable = false)
+    private Product product;
 
-    @Column(name = "category_id")
-    private Long categoryId;
+    @Column(name = "product_id")
+    private Long productId;
 
 }
