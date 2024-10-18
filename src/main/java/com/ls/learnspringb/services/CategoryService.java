@@ -18,4 +18,6 @@ public interface CategoryService {
 
     Category saveCategory(Category category);
 
+    void softDeleteCategoryById(Long id);
+
 }

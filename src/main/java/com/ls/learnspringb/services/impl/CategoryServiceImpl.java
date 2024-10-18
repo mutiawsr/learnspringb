@@ -40,4 +40,11 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.getActiveCategoryById(id);
     }
 
+    @Override
+    public void softDeleteCategoryById(Long id) {
+        Category category = categoryRepository.findById(id).orElse(null);
+        category.setIsDeleted(true);
+        categoryRepository.save(category);
+    }
+
 }
