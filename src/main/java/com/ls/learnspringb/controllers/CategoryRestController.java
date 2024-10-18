@@ -42,12 +42,35 @@ public class CategoryRestController {
     // return new ResponseEntity<>(resultMap, HttpStatus.OK);
     // }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<?> getAllCategories() {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         try {
             List<Category> categories = categoryService.getAllCategories();
+            List<CategoryResponseDto> categoryResponseDtos = new ArrayList<>();
+            for (Category category : categories) {
+                CategoryResponseDto categoryResponseDto = modelMapper.map(category, CategoryResponseDto.class);
+                categoryResponseDtos.add(categoryResponseDto);
+            }
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", categoryResponseDtos);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<?> getAllActiveCategories() {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        try {
+            List<Category> categories = categoryService.getAllActiveCategories();
             List<CategoryResponseDto> categoryResponseDtos = new ArrayList<>();
             for (Category category : categories) {
                 CategoryResponseDto categoryResponseDto = modelMapper.map(category, CategoryResponseDto.class);
