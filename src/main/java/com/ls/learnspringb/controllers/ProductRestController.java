@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,10 +66,10 @@ public class ProductRestController {;
     public ResponseEntity<?> saveProduct(@RequestBody ProductRequestDto productRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         try {
             Product product = new Product();
             modelMapper.map(productRequestDto, product);
-            product.setId(null);
             product = productService.saveProduct(product);
             resultMap.put("status", 200);
             resultMap.put("message", "success");
