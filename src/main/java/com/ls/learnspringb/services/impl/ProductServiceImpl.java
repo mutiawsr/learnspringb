@@ -21,6 +21,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public List<Product> getAllProductsActive() {
+        return productRepository.getAllProductsActive();
+    }
+
+    @Override
     public Product getProductById(Long id) {
         return productRepository.findById(id).orElse(null);
     }
@@ -36,5 +41,5 @@ public class ProductServiceImpl implements ProductService {
         product.setIsDeleted(true);
         productRepository.save(product);
     }
-    
+
 }

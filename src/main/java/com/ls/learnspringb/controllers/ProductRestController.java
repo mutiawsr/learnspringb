@@ -44,12 +44,35 @@ public class ProductRestController {;
     //     return new ResponseEntity<>(resultMap, HttpStatus.OK);
     // }
 
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<?> getAllProducts() {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         try {
             List<Product> products = productService.getAllProducts();
+            List<ProductResponseDto> productResponseDtos = new ArrayList<>();
+            for (Product product : products) {
+                ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
+                productResponseDtos.add(productResponseDto);
+            }
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", productResponseDtos);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<?> getAllProductsActive() {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        try {
+            List<Product> products = productService.getAllProductsActive();
             List<ProductResponseDto> productResponseDtos = new ArrayList<>();
             for (Product product : products) {
                 ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
@@ -115,11 +138,11 @@ public class ProductRestController {;
         try {
             productService.deleteProductById(id);
             resultMap.put("status", 200);
-            resultMap.put("message", "Delete success");
+            resultMap.put("message", "Delete Success");
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("status", 500);
-            resultMap.put("message", "Delete failed");
+            resultMap.put("message", "Delete Failed");
             resultMap.put("error", e);
             return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }

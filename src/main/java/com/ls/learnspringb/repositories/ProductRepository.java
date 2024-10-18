@@ -11,7 +11,12 @@ import com.ls.learnspringb.entities.Product;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    @Query(value = "select * from products where is_deleted = false", nativeQuery = true)
+    // get all products including soft deleted products
+    @Query(value = "select * from products", nativeQuery = true)
     List<Product> getAllProducts();
-    
+
+    // get all products where is_deleted = false
+    @Query(value = "select * from products where is_deleted = false", nativeQuery = true)
+    List<Product> getAllProductsActive();
+
 }
