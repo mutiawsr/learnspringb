@@ -18,4 +18,6 @@ public interface VariantService {
 
     Variant saveVariant(Variant variant);
 
+    void softDeleteVariantById(Long id);
+
 }

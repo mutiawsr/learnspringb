@@ -17,6 +17,7 @@ import com.ls.learnspringb.dtos.responses.VariantResponseDto;
 import com.ls.learnspringb.entities.Variant;
 import com.ls.learnspringb.services.VariantService;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,7 +59,7 @@ public class VariantRestController {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         try {
-            List<Variant> variants = variantService.getAllVariants();
+            List<Variant> variants = variantService.getAllActiveVariants();
             List<VariantResponseDto> variantResponseDtos = new ArrayList<>();
             for (Variant variant : variants) {
                 VariantResponseDto variantResponseDto = modelMapper.map(variant, VariantResponseDto.class);
@@ -110,6 +111,25 @@ public class VariantRestController {
             resultMap.put("status", 200);
             resultMap.put("message", "success");
             resultMap.put("data", variant);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> softDeleteVariantById(@PathVariable Long id) {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        try {
+            if (variantService.getActiveVariantById(id) == null) {
+                throw new Exception();
+            }
+            variantService.softDeleteVariantById(id);
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("status", 500);

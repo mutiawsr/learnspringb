@@ -40,4 +40,11 @@ public class VariantServiceImpl implements VariantService {
         return variantRepository.save(variant);
     }
 
+    @Override
+    public void softDeleteVariantById(Long id) {
+        Variant variant = variantRepository.findById(id).orElse(null);
+        variant.setIsDeleted(true);
+        variantRepository.save(variant);
+    }
+
 }
