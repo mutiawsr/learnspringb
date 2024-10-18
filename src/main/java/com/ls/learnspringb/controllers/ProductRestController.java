@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 @RestController
 @RequestMapping("/api/product")
 public class ProductRestController {
-    ;
 
     @Autowired
     ProductService productService;
