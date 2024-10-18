@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table(name = "category")
+@Table(name = "categories")
 public class Category extends BaseEntity {
 
     public Category() {

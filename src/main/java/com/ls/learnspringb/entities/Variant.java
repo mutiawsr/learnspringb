@@ -16,7 +16,7 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Table(name = "variant")
+@Table(name = "variants")
 public class Variant extends BaseEntity {
     
     public Variant() {
