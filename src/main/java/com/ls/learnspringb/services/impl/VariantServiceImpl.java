@@ -21,6 +21,21 @@ public class VariantServiceImpl implements VariantService {
     }
 
     @Override
+    public List<Variant> getAllActiveVariants() {
+        return variantRepository.getAllActiveVariants();
+    }
+
+    @Override
+    public Variant getVariantById(Long id) {
+        return variantRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public Variant getActiveVariantById(Long id) {
+        return variantRepository.getActiveVariantById(id);
+    }
+
+    @Override
     public Variant saveVariant(Variant variant) {
         return variantRepository.save(variant);
     }

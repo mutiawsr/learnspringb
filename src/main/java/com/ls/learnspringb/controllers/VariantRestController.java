@@ -16,9 +16,12 @@ import com.ls.learnspringb.dtos.requests.VariantRequestDto;
 import com.ls.learnspringb.dtos.responses.VariantResponseDto;
 import com.ls.learnspringb.entities.Variant;
 import com.ls.learnspringb.services.VariantService;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/variant")
@@ -27,8 +30,31 @@ public class VariantRestController {
     @Autowired
     VariantService variantService;
 
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<?> getAllVariants() {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        try {
+            List<Variant> variants = variantService.getAllVariants();
+            List<VariantResponseDto> variantResponseDtos = new ArrayList<>();
+            for (Variant variant : variants) {
+                VariantResponseDto variantResponseDto = modelMapper.map(variant, VariantResponseDto.class);
+                variantResponseDtos.add(variantResponseDto);
+            }
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", variantResponseDtos);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/active")
+    public ResponseEntity<?> getAllActiveVariants() {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         try {
@@ -57,6 +83,28 @@ public class VariantRestController {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         try {
             Variant variant = new Variant();
+            modelMapper.map(variantRequestDto, variant);
+            variant = variantService.saveVariant(variant);
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", variant);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    // Update is_deleted = false data only
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateVariantById(@PathVariable Long id, @RequestBody VariantRequestDto variantRequestDto) {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        try {
+            Variant variant = variantService.getActiveVariantById(id);
             modelMapper.map(variantRequestDto, variant);
             variant = variantService.saveVariant(variant);
             resultMap.put("status", 200);
