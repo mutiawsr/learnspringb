@@ -83,30 +83,4 @@ public class ProductRestController {;
         }
     }
 
-    // @PostMapping("")
-    // public ResponseEntity<?> saveCategory(@RequestBody ProductRequestDto productRequestDto) {
-    //     LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
-    //     ModelMapper modelMapper = new ModelMapper();
-    //     modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-    //     try {
-    //         // Product product = modelMapper.map(productRequestDto, Product.class);
-    //         Product product = new Product();
-    //         product.setName(productRequestDto.getName());
-    //         product.setSlug(productRequestDto.getSlug());
-    //         product.setDescription(productRequestDto.getDescription());
-    //         product.setCategoryId(productRequestDto.getCategoryId());
-    //         product.setIsDeleted(productRequestDto.getIsDeleted());
-    //         productService.saveProduct(product);
-    //         resultMap.put("status", 200);
-    //         resultMap.put("message", "success");
-    //         resultMap.put("data", product);
-    //         return new ResponseEntity<>(resultMap, HttpStatus.OK);
-    //     } catch (Exception e) {
-    //         resultMap.put("status", 500);
-    //         resultMap.put("message", "failed");
-    //         resultMap.put("error", e);
-    //         return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
-    //     }
-    // }
-
 }
