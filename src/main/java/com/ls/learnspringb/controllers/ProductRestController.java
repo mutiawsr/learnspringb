@@ -24,11 +24,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-
-
 @RestController
 @RequestMapping("/api/product")
-public class ProductRestController {;
+public class ProductRestController {
+    ;
 
     @Autowired
     ProductService productService;
@@ -36,12 +35,12 @@ public class ProductRestController {;
     // Non DTO
     // @GetMapping("")
     // public ResponseEntity<?> getAllProducts_nonDTO() {
-    //     LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
-    //     List<Product> products = productRepository.findAll();
-    //     resultMap.put("status", 200);
-    //     resultMap.put("message", "success");
-    //     resultMap.put("data", products);
-    //     return new ResponseEntity<>(resultMap, HttpStatus.OK);
+    // LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+    // List<Product> products = productRepository.findAll();
+    // resultMap.put("status", 200);
+    // resultMap.put("message", "success");
+    // resultMap.put("data", products);
+    // return new ResponseEntity<>(resultMap, HttpStatus.OK);
     // }
 
     @GetMapping("/all")
@@ -111,13 +110,19 @@ public class ProductRestController {;
         }
     }
 
+    // Update is_deleted = false data only
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         try {
-            Product product = productService.getProductById(id);
+            Product product = productService.getActiveProductById(id);
+            if (product == null) {
+                resultMap.put("status", 404);
+                resultMap.put("message", "Data Not Found");
+                return new ResponseEntity<>(resultMap, HttpStatus.NOT_FOUND);
+            }
             modelMapper.map(productRequestDto, product);
             product = productService.saveProduct(product);
             resultMap.put("status", 200);
