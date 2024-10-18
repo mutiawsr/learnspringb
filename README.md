@@ -6,5 +6,5 @@ Current Feature:
 - Edit Category Data
 - Delete Category Data
 
-Upcoming Features:
-- API
+Features On Work:
+- RESTful API
