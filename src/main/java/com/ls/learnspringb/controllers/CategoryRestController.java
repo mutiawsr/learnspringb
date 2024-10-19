@@ -19,9 +19,9 @@ import com.ls.learnspringb.services.CategoryService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
@@ -110,11 +110,12 @@ public class CategoryRestController {
     }
 
     // Update is_deleted = false data only
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateCategoryById(@PathVariable Long id, @RequestBody CategoryRequestDto categoryRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
         try {
             Category category = categoryService.getActiveCategoryById(id);
             modelMapper.map(categoryRequestDto, category);

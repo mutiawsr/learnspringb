@@ -19,9 +19,9 @@ import com.ls.learnspringb.services.VariantService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
@@ -99,11 +99,12 @@ public class VariantRestController {
     }
 
     // Update is_deleted = false data only
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity<?> updateVariantById(@PathVariable Long id, @RequestBody VariantRequestDto variantRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
+        modelMapper.getConfiguration().setSkipNullEnabled(true);
         try {
             Variant variant = variantService.getActiveVariantById(id);
             modelMapper.map(variantRequestDto, variant);
