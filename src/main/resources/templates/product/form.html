@@ -17,9 +17,8 @@
             th:field="*{description}"></textarea>
     </div>
     <div class="mb-3">
-        <label for="productIsDeleted">Is Deleted?</label>
-        <textarea class="form-control" name="description" id="productIsDeleted" placeholder="Input Product Is Deleted"
-            th:field="*{isDeleted}"></textarea>
+        <input class="form-check-input" type="checkbox" name="isDeleted" id="productIsDeleted" th:field="*{isDeleted}"></textarea>
+        <label for="productIsDeleted">Is Deleted</label>
     </div>
     <button type="submit" class="btn btn-primary" style="float: right;">Save</button>
 </form>
