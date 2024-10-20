@@ -1,10 +1,23 @@
 <form th:action="@{~/variant/save}" th:object="${variant}" method="post">
     <input type="hidden" name="id" id="id" th:field="*{id}">
     <div class="mb-3">
-        <label for="variantProductId" class="form-label">Category</label>
-        <select required class="form-select" name="productId" id="variantProductId" th:field="*{productId}">
+        <label for="categoryId" class="form-label">Category</label>
+        <!-- <select required class="form-select" name="categoryId" id="productCategoryId">
+            <option value="" selected>Select Category</option>
+            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        </select> -->
+        <select class="form-select" id="categoryId" name="categoryId">
+            <option value="">Select Category</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="productId" class="form-label">Product</label>
+        <!-- <select required class="form-select" name="productId" id="variantProductId" th:field="*{productId}">
             <option value="" selected>Select Product</option>
             <option th:each="product : ${products}" th:value="${product.id}" th:text="${product.name}"></option>
+        </select> -->
+        <select class="form-select" id="productId" name="productId" disabled>
+            <option value="">Select Product</option>
         </select>
     </div>
     <div class="mb-3">

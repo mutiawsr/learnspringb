@@ -7,6 +7,37 @@ function openForm() {
             $('#myModal').modal('show');
             $('.modal-title').html("Variant Form");
             $('.modal-body').html(variantForm);
+            loadCategories();
+        }
+    });
+}
+
+function loadCategories() {
+    $.ajax({
+        url: '/variant/categories',
+        method: 'GET',
+        success: function(categories) {
+            categories.forEach(function(category) {
+                $('#categoryId').append(new Option(category.name, category.id));
+            });
+        }
+    });
+
+    $('#categoryId').change(function() {
+        var categoryId = $(this).val();
+        $('#productId').empty().append(new Option("Select Product", "")).prop('disabled', true);
+
+        if (categoryId) {
+            $.ajax({
+                url: '/variant/form/products/' + categoryId,
+                method: 'GET',
+                success: function(products) {
+                    products.forEach(function(product) {
+                        $('#productId').append(new Option(product.name, product.id));
+                    });
+                    $('#productId').prop('disabled', false);
+                }
+            });
         }
     });
 }
@@ -20,6 +51,7 @@ function editForm(id) {
             $('#myModal').modal('show');
             $('.modal-title').html("Variant Form");
             $('.modal-body').html(variantForm);
+            loadCategories();
         }
     });
 }

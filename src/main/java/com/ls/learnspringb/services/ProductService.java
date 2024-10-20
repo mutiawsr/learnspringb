@@ -10,6 +10,8 @@ public interface ProductService {
 
     List<Product> getAllActiveProducts();
 
+    List<Product> getProductsByCategoryId(Long categoryId);
+
     Product getProductById(Long id);
 
     Product getActiveProductById(Long id);
