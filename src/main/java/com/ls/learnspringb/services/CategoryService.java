@@ -10,10 +10,8 @@ public interface CategoryService {
 
     List<Category> getAllActiveCategories();
 
-    // get all products including soft deleted products
     Category getCategoryById(Long id);
 
-    // get all products where is_deleted = false
     Category getActiveCategoryById(Long id);
 
     Category saveCategory(Category category);
