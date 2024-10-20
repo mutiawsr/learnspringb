@@ -25,6 +25,7 @@
                 <tbody>
                     <tr th:each="product, iter : ${products}">
                         <th scope="row" th:text="${iter.count}"></th>
+                        <td th:text="${product.category.name}"></td>
                         <td th:text="${product.name}"></td>
                         <td th:text="${product.slug}"></td>
                         <td th:text="${product.description}"></td>

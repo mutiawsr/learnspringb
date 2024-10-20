@@ -1,5 +1,6 @@
 <form th:action="@{~/product/save}" th:object="${product}" method="post">
     <input type="hidden" name="id" id="id" th:field="*{id}">
+    <input type="hidden" name="categoryId" id="productCategoryId" th:field="*{categoryId}">
     <div class="mb-3">
         <label for="productName" class="form-label">Product Name</label>
         <input type="text" class="form-control" name="name" id="productName" placeholder="Input Product Name"
