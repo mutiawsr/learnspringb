@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.ls.learnspringb.entities.Category;
 import com.ls.learnspringb.entities.Product;
 import com.ls.learnspringb.services.CategoryService;
 import com.ls.learnspringb.services.ProductService;
@@ -39,6 +40,8 @@ public class ProductController {
     public ModelAndView form() {
         ModelAndView view = new ModelAndView("product/form");
         Product product = new Product();
+        List<Category> categories = categoryService.getAllCategories();
+        view.addObject("categories", categories);
         view.addObject("product", product);
         return view;
     }
@@ -55,6 +58,8 @@ public class ProductController {
     public ModelAndView edit(@PathVariable Long id) {
         ModelAndView view = new ModelAndView("product/form");
         Product product = productService.getProductById(id);
+        List<Category> categories = categoryService.getAllCategories();
+        view.addObject("categories", categories);
         view.addObject("product", product);
         return view;
     }
