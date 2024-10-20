@@ -1,0 +1,24 @@
+<form th:action="@{~/product/save}" th:object="${product}" method="post">
+    <input type="hidden" name="id" id="id" th:field="*{id}">
+    <div class="mb-3">
+        <label for="productName" class="form-label">Product Name</label>
+        <input type="text" class="form-control" name="name" id="productName" placeholder="Input Product Name"
+            th:field="*{name}">
+    </div>
+    <div class="mb-3">
+        <label for="productSlug" class="form-label">Slug</label>
+        <input type="text" class="form-control" name="slug" id="productSlug" placeholder="Input Product Slug"
+            th:field="*{slug}">
+    </div>
+    <div class="mb-3">
+        <label for="productDesc">Description</label>
+        <textarea class="form-control" name="description" id="productDesc" placeholder="Input Product Description"
+            th:field="*{description}"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="productIsDeleted">Is Deleted?</label>
+        <textarea class="form-control" name="description" id="productIsDeleted" placeholder="Input Product Is Deleted"
+            th:field="*{isDeleted}"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="float: right;">Save</button>
+</form>

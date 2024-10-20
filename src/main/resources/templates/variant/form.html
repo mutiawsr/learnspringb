@@ -1,0 +1,24 @@
+<form th:action="@{~/variant/save}" th:object="${variant}" method="post">
+    <input type="hidden" name="id" id="id" th:field="*{id}">
+    <div class="mb-3">
+        <label for="variantName" class="form-label">Variant Name</label>
+        <input type="text" class="form-control" name="name" id="variantName" placeholder="Input Variant Name"
+            th:field="*{name}">
+    </div>
+    <div class="mb-3">
+        <label for="variantSlug" class="form-label">Slug</label>
+        <input type="text" class="form-control" name="slug" id="variantSlug" placeholder="Input Variant Slug"
+            th:field="*{slug}">
+    </div>
+    <div class="mb-3">
+        <label for="variantDesc">Description</label>
+        <textarea class="form-control" name="description" id="variantDesc" placeholder="Input Variant Description"
+            th:field="*{description}"></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="variantIsDeleted">Is Deleted?</label>
+        <textarea class="form-control" name="description" id="variantIsDeleted" placeholder="Input Variant Is Deleted"
+            th:field="*{isDeleted}"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="float: right;">Save</button>
+</form>
