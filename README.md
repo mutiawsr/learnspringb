@@ -1,10 +1,12 @@
 ﻿# learnspringb
 Example project for learning CRUD for Java Spring Boot
 
-Current Feature:
+Current Features:
 - Add Category Data
 - Edit Category Data
 - Delete Category Data
+- RESTful API
+- MVC
 
 Features On Work:
-- RESTful API
+- TBA

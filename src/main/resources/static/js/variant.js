@@ -20,6 +20,12 @@ function loadCategories() {
             categories.forEach(function(category) {
                 $('#categoryId').append(new Option(category.name, category.id));
             });
+
+            var selectedProductId = $('#productId').data('selected-product-id');
+            if (selectedProductId) {
+                var selectedCategoryId = $('#categoryId').data('selected-category-id');
+                $('#categoryId').val(selectedCategoryId).trigger('change');
+            }
         }
     });
 

@@ -75,9 +75,11 @@ public class VariantController {
     public ModelAndView edit(@PathVariable Long id) {
         ModelAndView view = new ModelAndView("variant/form");
         Variant variant = variantService.getVariantById(id);
-        List<Product> products = productService.getAllProducts();
-        view.addObject("products", products);
+        Product selectedProduct = productService.getProductById(variant.getProductId());
+        List<Category> categories = categoryService.getAllCategories();
+        view.addObject("selectedProduct", selectedProduct);
         view.addObject("variant", variant);
+        view.addObject("categories", categories);
         return view;
     }
 
