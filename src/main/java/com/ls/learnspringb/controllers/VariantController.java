@@ -46,6 +46,8 @@ public class VariantController {
     public ModelAndView form() {
         ModelAndView view = new ModelAndView("variant/form");
         Variant variant = new Variant();
+        List<Category> categories = categoryService.getAllCategories();
+        view.addObject("categories", categories);
         view.addObject("variant", variant);
         return view;
     }

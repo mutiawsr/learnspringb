@@ -7,20 +7,30 @@ function openForm() {
             $('#myModal').modal('show');
             $('.modal-title').html("Variant Form");
             $('.modal-body').html(variantForm);
-            loadCategories();
+            loadData();
         }
     });
 }
 
-function loadCategories() {
+function editForm(id) {
+    $.ajax({
+        type: "get",
+        url: `/variant/edit/${id}`,
+        contentType: "html",
+        success: function (variantForm) {
+            $('#myModal').modal('show');
+            $('.modal-title').html("Variant Form");
+            $('.modal-body').html(variantForm);
+            loadData();
+        }
+    });
+}
+
+function loadData() {
     $.ajax({
         url: '/variant/categories',
         method: 'GET',
-        success: function(categories) {
-            categories.forEach(function(category) {
-                $('#categoryId').append(new Option(category.name, category.id));
-            });
-
+        success: function() {
             var selectedProductId = $('#productId').data('selected-product-id');
             if (selectedProductId) {
                 var selectedCategoryId = $('#categoryId').data('selected-category-id');
@@ -44,20 +54,6 @@ function loadCategories() {
                     $('#productId').prop('disabled', false);
                 }
             });
-        }
-    });
-}
-
-function editForm(id) {
-    $.ajax({
-        type: "get",
-        url: `/variant/edit/${id}`,
-        contentType: "html",
-        success: function (variantForm) {
-            $('#myModal').modal('show');
-            $('.modal-title').html("Variant Form");
-            $('.modal-body').html(variantForm);
-            loadCategories();
         }
     });
 }
