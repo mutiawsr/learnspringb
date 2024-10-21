@@ -76,7 +76,7 @@ function deleteVariant(id) {
         type: "get",
         url: `/variant/delete/${id}`,
         contentType: "html",
-        success: function (response) {
+        success: function () {
             location.reload();
         }
     });

@@ -2,7 +2,7 @@
     <input type="hidden" name="id" id="id" th:field="*{id}">
     <div class="mb-3">
         <label for="categoryId" class="form-label">Category</label>
-        <select required class="form-select" name="categoryId" id="categoryId">
+        <select required class="form-select" name="categoryId" id="categoryId" th:field="*{product.category.id}">
             <option value="" selected>Select Category</option>
             <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
         </select>
