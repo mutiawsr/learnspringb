@@ -1,4 +1,4 @@
-package com.ls.learnspringb.controllers;
+package com.ls.learnspringb.controllers.mvc;
 
 import java.util.List;
 

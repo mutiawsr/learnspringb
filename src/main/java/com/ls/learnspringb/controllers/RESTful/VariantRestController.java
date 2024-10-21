@@ -1,4 +1,4 @@
-package com.ls.learnspringb.controllers;
+package com.ls.learnspringb.controllers.restful;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -12,10 +12,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.ls.learnspringb.dtos.requests.ProductRequestDto;
-import com.ls.learnspringb.dtos.responses.ProductResponseDto;
-import com.ls.learnspringb.entities.Product;
-import com.ls.learnspringb.services.ProductService;
+import com.ls.learnspringb.dtos.requests.VariantRequestDto;
+import com.ls.learnspringb.dtos.responses.VariantResponseDto;
+import com.ls.learnspringb.entities.Variant;
+import com.ls.learnspringb.services.VariantService;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,37 +25,26 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
-@RequestMapping("/api/product")
-public class ProductRestController {
-
+@RequestMapping("/api/variant")
+public class VariantRestController {
+    
     @Autowired
-    ProductService productService;
-
-    // Non DTO
-    // @GetMapping("")
-    // public ResponseEntity<?> getAllProducts_nonDTO() {
-    // LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
-    // List<Product> products = productRepository.findAll();
-    // resultMap.put("status", 200);
-    // resultMap.put("message", "success");
-    // resultMap.put("data", products);
-    // return new ResponseEntity<>(resultMap, HttpStatus.OK);
-    // }
+    VariantService variantService;
 
     @GetMapping("/all")
-    public ResponseEntity<?> getAllProducts() {
+    public ResponseEntity<?> getAllVariants() {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         try {
-            List<Product> products = productService.getAllProducts();
-            List<ProductResponseDto> productResponseDtos = new ArrayList<>();
-            for (Product product : products) {
-                ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
-                productResponseDtos.add(productResponseDto);
+            List<Variant> variants = variantService.getAllVariants();
+            List<VariantResponseDto> variantResponseDtos = new ArrayList<>();
+            for (Variant variant : variants) {
+                VariantResponseDto variantResponseDto = modelMapper.map(variant, VariantResponseDto.class);
+                variantResponseDtos.add(variantResponseDto);
             }
             resultMap.put("status", 200);
             resultMap.put("message", "success");
-            resultMap.put("data", productResponseDtos);
+            resultMap.put("data", variantResponseDtos);
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("status", 500);
@@ -66,19 +55,19 @@ public class ProductRestController {
     }
 
     @GetMapping("/active")
-    public ResponseEntity<?> getAllProductsActive() {
+    public ResponseEntity<?> getAllActiveVariants() {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         try {
-            List<Product> products = productService.getAllActiveProducts();
-            List<ProductResponseDto> productResponseDtos = new ArrayList<>();
-            for (Product product : products) {
-                ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
-                productResponseDtos.add(productResponseDto);
+            List<Variant> variants = variantService.getAllActiveVariants();
+            List<VariantResponseDto> variantResponseDtos = new ArrayList<>();
+            for (Variant variant : variants) {
+                VariantResponseDto variantResponseDto = modelMapper.map(variant, VariantResponseDto.class);
+                variantResponseDtos.add(variantResponseDto);
             }
             resultMap.put("status", 200);
             resultMap.put("message", "success");
-            resultMap.put("data", productResponseDtos);
+            resultMap.put("data", variantResponseDtos);
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("status", 500);
@@ -87,19 +76,19 @@ public class ProductRestController {
             return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    
     @PostMapping("")
-    public ResponseEntity<?> saveProduct(@RequestBody ProductRequestDto productRequestDto) {
+    public ResponseEntity<?> saveVariant(@RequestBody VariantRequestDto variantRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         try {
-            Product product = new Product();
-            modelMapper.map(productRequestDto, product);
-            product = productService.saveProduct(product);
+            Variant variant = new Variant();
+            modelMapper.map(variantRequestDto, variant);
+            variant = variantService.saveVariant(variant);
             resultMap.put("status", 200);
             resultMap.put("message", "success");
-            resultMap.put("data", product);
+            resultMap.put("data", variant);
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("status", 500);
@@ -111,18 +100,18 @@ public class ProductRestController {
 
     // Update is_deleted = false data only
     @PatchMapping("/{id}")
-    public ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) {
+    public ResponseEntity<?> updateVariantById(@PathVariable Long id, @RequestBody VariantRequestDto variantRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         try {
-            Product product = productService.getActiveProductById(id);
-            modelMapper.map(productRequestDto, product);
-            product = productService.saveProduct(product);
+            Variant variant = variantService.getActiveVariantById(id);
+            modelMapper.map(variantRequestDto, variant);
+            variant = variantService.saveVariant(variant);
             resultMap.put("status", 200);
             resultMap.put("message", "success");
-            resultMap.put("data", product);
+            resultMap.put("data", variant);
             return new ResponseEntity<>(resultMap, HttpStatus.OK);
         } catch (Exception e) {
             resultMap.put("status", 500);
@@ -133,13 +122,13 @@ public class ProductRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> softDeleteProductById(@PathVariable Long id) {
+    public ResponseEntity<?> softDeleteVariantById(@PathVariable Long id) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
         try {
-            if (productService.getActiveProductById(id) == null) {
+            if (variantService.getActiveVariantById(id) == null) {
                 throw new Exception();
             }
-            productService.softDeleteProductById(id);
+            variantService.softDeleteVariantById(id);
             resultMap.put("status", 200);
             resultMap.put("message", "success");
             return new ResponseEntity<>(resultMap, HttpStatus.OK);

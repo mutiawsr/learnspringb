@@ -1,4 +1,4 @@
-package com.ls.learnspringb.controllers;
+package com.ls.learnspringb.controllers.restful;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
