@@ -5,7 +5,7 @@ function openForm() {
         contentType: "html",
         success: function (categoryForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Category Form");
+            $('.modal-title').html("New Category");
             $('.modal-body').html(categoryForm);
         }
     });
@@ -18,7 +18,7 @@ function editForm(id) {
         contentType: "html",
         success: function (categoryForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Category Form");
+            $('.modal-title').html("Edit Category");
             $('.modal-body').html(categoryForm);
         }
     });
@@ -31,7 +31,7 @@ function deleteForm(id) {
         contentType: "html",
         success: function (categoryForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Category Form");
+            $('.modal-title').html("Delete Category");
             $('.modal-body').html(categoryForm);
         }
     });

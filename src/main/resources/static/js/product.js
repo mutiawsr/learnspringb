@@ -5,7 +5,7 @@ function openForm() {
         contentType: "html",
         success: function (productForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Product Form");
+            $('.modal-title').html("New Product");
             $('.modal-body').html(productForm);
         }
     });
@@ -18,7 +18,7 @@ function editForm(id) {
         contentType: "html",
         success: function (productForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Product Form");
+            $('.modal-title').html("Edit Product");
             $('.modal-body').html(productForm);
         }
     });
@@ -31,7 +31,7 @@ function deleteForm(id) {
         contentType: "html",
         success: function (productForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Product Form");
+            $('.modal-title').html("Delete Product");
             $('.modal-body').html(productForm);
         }
     });

@@ -5,7 +5,7 @@ function openForm() {
         contentType: "html",
         success: function (variantForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Variant Form");
+            $('.modal-title').html("New Variant");
             $('.modal-body').html(variantForm);
             loadData();
         }
@@ -19,7 +19,7 @@ function editForm(id) {
         contentType: "html",
         success: function (variantForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Variant Form");
+            $('.modal-title').html("Edit Variant");
             $('.modal-body').html(variantForm);
             loadData();
         }
@@ -71,7 +71,7 @@ function deleteForm(id) {
         contentType: "html",
         success: function (variantForm) {
             $('#myModal').modal('show');
-            $('.modal-title').html("Variant Form");
+            $('.modal-title').html("Delete Variant");
             $('.modal-body').html(variantForm);
         }
     });
