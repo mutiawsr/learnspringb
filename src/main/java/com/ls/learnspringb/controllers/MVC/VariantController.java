@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ls.learnspringb.entities.Category;
 import com.ls.learnspringb.entities.Product;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/variant")
@@ -52,17 +52,11 @@ public class VariantController {
         return view;
     }
 
-    @GetMapping("/categories")
-    @ResponseBody
-    public List<Category> getCategories() {
-        List<Category> categories = categoryService.getAllCategories();
-        return categories;
-    }
-
-    @GetMapping("/form/products/{categoryId}")
+    @GetMapping("/form/{categoryId}")
     @ResponseBody
     public List<Product> getProductsByCategoryId(@PathVariable Long categoryId) {
-        return productService.getProductsByCategoryId(categoryId);
+        List<Product> products = productService.getProductsByCategoryId(categoryId);
+        return products;
     }
     
     @PostMapping("/save")
@@ -77,10 +71,10 @@ public class VariantController {
     public ModelAndView edit(@PathVariable Long id) {
         ModelAndView view = new ModelAndView("variant/form");
         Variant variant = variantService.getVariantById(id);
-        Product selectedProduct = productService.getProductById(variant.getProductId());
         List<Category> categories = categoryService.getAllCategories();
-        view.addObject("selectedProduct", selectedProduct);
+        List<Product> products = productService.getAllProducts();
         view.addObject("variant", variant);
+        view.addObject("products", products);
         view.addObject("categories", categories);
         return view;
     }

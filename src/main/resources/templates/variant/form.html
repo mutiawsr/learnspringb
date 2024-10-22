@@ -2,16 +2,21 @@
     <input type="hidden" name="id" id="id" th:field="*{id}">
     <div class="mb-3">
         <label for="categoryId" class="form-label">Category</label>
-        <select required class="form-select" name="categoryId" id="categoryId" th:field="*{product.category.id}">
-            <option value="" selected>Select Category</option>
-            <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+        <select required class="form-select" name="categoryId" id="categoryId">
+            <option value="">Select Category</option>
+            <option th:each="category : ${categories}" 
+            th:value="${category.id}" 
+            th:text="${category.name}"
+            th:selected="${variant.product?.category?.id == category.id}"></option>
         </select>
     </div>
     <div class="mb-3">
         <label for="productId" class="form-label">Product</label>
-        <select required class="form-select" id="productId" name="productId" disabled>
+        <select required class="form-select" id="productId" name="productId" th:field="*{productId}">
             <option value="">Select Product</option>
-            <option th:value="${selectedProduct?.id}" th:text="${selectedProduct?.name}" th:selected="true"></option>
+            <option th:each="product : ${products}" 
+            th:value="${product.id}" 
+            th:text="${product.name}"></option>
         </select>
     </div>
     <div class="mb-3">

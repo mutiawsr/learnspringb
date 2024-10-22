@@ -27,31 +27,37 @@ function editForm(id) {
 }
 
 function loadData() {
-    $.ajax({
-        url: '/variant/categories',
-        method: 'GET',
-        success: function() {
-            var selectedProductId = $('#productId').data('selected-product-id');
-            if (selectedProductId) {
-                var selectedCategoryId = $('#categoryId').data('selected-category-id');
-                $('#categoryId').val(selectedCategoryId).trigger('change');
+    let categoryId = $('#categoryId').val();
+    let productId = $('#productId').val();
+    $('#productId').empty().append(new Option("Select Product", ""));
+    if (categoryId) {
+        $.ajax({
+            type: "get",
+            url: '/variant/form/' + categoryId,
+            contentType: "html",
+            success: function (products) {
+                products.forEach(product => {
+                    $('#productId').append(new Option(product.name, product.id));
+                });
+                if (productId) {
+                    $("#productId").val(productId).change();
+                }
             }
-        }
-    });
+        });
+    }
 
-    $('#categoryId').change(function() {
-        var categoryId = $(this).val();
-        $('#productId').empty().append(new Option("Select Product", "")).prop('disabled', true);
-
+    $('#categoryId').change(function () {
+        let categoryId = $(this).val();
+        $('#productId').empty().append(new Option("Select Product", ""));
         if (categoryId) {
             $.ajax({
-                url: '/variant/form/products/' + categoryId,
-                method: 'GET',
-                success: function(products) {
-                    products.forEach(function(product) {
+                type: "get",
+                url: '/variant/form/' + categoryId,
+                contentType: "html",
+                success: function (products) {
+                    products.forEach(product => {
                         $('#productId').append(new Option(product.name, product.id));
                     });
-                    $('#productId').prop('disabled', false);
                 }
             });
         }
