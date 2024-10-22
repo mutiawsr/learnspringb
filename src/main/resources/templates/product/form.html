@@ -9,12 +9,12 @@
     </div>
     <div class="mb-3">
         <label for="productName" class="form-label">Name</label>
-        <input required type="text" class="form-control" name="name" id="productName" placeholder="Input Product Name"
+        <input type="text" class="form-control" name="name" id="productName" placeholder="Input Product Name"
             th:field="*{name}">
     </div>
     <div class="mb-3">
         <label for="productSlug" class="form-label">Slug</label>
-        <input type="text" class="form-control" name="slug" id="productSlug" placeholder="Input Product Slug"
+        <input disabled type="text" class="form-control" name="slug" id="productSlug" placeholder="Auto Generated"
             th:field="*{slug}">
     </div>
     <div class="mb-3">

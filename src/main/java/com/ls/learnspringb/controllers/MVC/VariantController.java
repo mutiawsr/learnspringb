@@ -13,6 +13,8 @@ import com.ls.learnspringb.entities.Variant;
 import com.ls.learnspringb.services.CategoryService;
 import com.ls.learnspringb.services.ProductService;
 import com.ls.learnspringb.services.VariantService;
+import com.ls.learnspringb.utilities.GenerateSlug;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -62,6 +64,7 @@ public class VariantController {
     @PostMapping("/save")
     public ModelAndView save(@ModelAttribute Variant variant, BindingResult result) {
         if (!result.hasErrors()) {
+            variant.setSlug(GenerateSlug.generateSlug(variant.getName()));
             variantService.saveVariant(variant);
         }
         return new ModelAndView("redirect:/variant");

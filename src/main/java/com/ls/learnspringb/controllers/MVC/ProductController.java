@@ -16,6 +16,7 @@ import com.ls.learnspringb.entities.Category;
 import com.ls.learnspringb.entities.Product;
 import com.ls.learnspringb.services.CategoryService;
 import com.ls.learnspringb.services.ProductService;
+import com.ls.learnspringb.utilities.GenerateSlug;
 
 @Controller
 @RequestMapping("/product")
@@ -49,6 +50,7 @@ public class ProductController {
     @PostMapping("/save")
     public ModelAndView save(@ModelAttribute Product product, BindingResult result) {
         if (!result.hasErrors()) {
+            product.setSlug(GenerateSlug.generateSlug(product.getName()));
             productService.saveProduct(product);
         }
         return new ModelAndView("redirect:/product");

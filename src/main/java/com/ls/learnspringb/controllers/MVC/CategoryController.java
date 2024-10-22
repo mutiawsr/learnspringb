@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ls.learnspringb.entities.Category;
 import com.ls.learnspringb.services.CategoryService;
+import com.ls.learnspringb.utilities.GenerateSlug;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -43,6 +44,7 @@ public class CategoryController {
     @PostMapping("/save")
     public ModelAndView save(@ModelAttribute Category category, BindingResult result) {
         if (!result.hasErrors()) {
+            category.setSlug(GenerateSlug.generateSlug(category.getName()));
             categoryService.saveCategory(category);
         }
         return new ModelAndView("redirect:/category");
