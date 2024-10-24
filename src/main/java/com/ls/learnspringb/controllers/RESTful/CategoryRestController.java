@@ -17,6 +17,7 @@ import com.ls.learnspringb.dtos.responses.CategoryResponseDto;
 import com.ls.learnspringb.entities.Category;
 import com.ls.learnspringb.services.CategoryService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/category")
+@CrossOrigin("*")
 public class CategoryRestController {
 
     @Autowired
@@ -88,6 +90,25 @@ public class CategoryRestController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getCategoryById(@PathVariable Long id) {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        try {
+            Category category = categoryService.getCategoryById(id);
+            CategoryResponseDto categoryResponseDto = modelMapper.map(category, CategoryResponseDto.class);
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", categoryResponseDto);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    
     @PostMapping("")
     public ResponseEntity<?> saveCategory(@RequestBody CategoryRequestDto categoryRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
@@ -109,7 +130,6 @@ public class CategoryRestController {
         }
     }
 
-    // Update is_deleted = false data only
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateCategoryById(@PathVariable Long id, @RequestBody CategoryRequestDto categoryRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
@@ -117,7 +137,7 @@ public class CategoryRestController {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         try {
-            Category category = categoryService.getActiveCategoryById(id);
+            Category category = categoryService.getCategoryById(id);
             modelMapper.map(categoryRequestDto, category);
             category = categoryService.saveCategory(category);
             resultMap.put("status", 200);

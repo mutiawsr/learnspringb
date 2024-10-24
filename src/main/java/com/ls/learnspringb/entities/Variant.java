@@ -41,7 +41,7 @@ public class Variant extends BaseEntity {
     @Column(name = "name", length = 50)
     private String name;
 
-    @Column(name = "slug", length = 20)
+    @Column(name = "slug", length = 20, unique = true)
     private String slug;
 
     @Column(name = "description", length = 500, nullable = true)

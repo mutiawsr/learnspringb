@@ -17,6 +17,7 @@ import com.ls.learnspringb.dtos.responses.ProductResponseDto;
 import com.ls.learnspringb.entities.Product;
 import com.ls.learnspringb.services.ProductService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/product")
+@CrossOrigin("*")
 public class ProductRestController {
 
     @Autowired
@@ -88,6 +90,48 @@ public class ProductRestController {
         }
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getProductById(@PathVariable Long id) {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        try {
+            Product product = productService.getProductById(id);
+            ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", productResponseDto);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<?> getProductsByCategoryId(@PathVariable Long categoryId) {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        try {
+            List<Product> products = productService.getProductsByCategoryId(categoryId);
+            List<ProductResponseDto> productResponseDtos = new ArrayList<>();
+            for (Product product : products) {
+                ProductResponseDto productResponseDto = modelMapper.map(product, ProductResponseDto.class);
+                productResponseDtos.add(productResponseDto);
+            }
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", productResponseDtos);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @PostMapping("")
     public ResponseEntity<?> saveProduct(@RequestBody ProductRequestDto productRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
@@ -109,7 +153,6 @@ public class ProductRestController {
         }
     }
 
-    // Update is_deleted = false data only
     @PatchMapping("/{id}")
     public ResponseEntity<?> updateProductById(@PathVariable Long id, @RequestBody ProductRequestDto productRequestDto) {
         LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
@@ -117,7 +160,7 @@ public class ProductRestController {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         try {
-            Product product = productService.getActiveProductById(id);
+            Product product = productService.getProductById(id);
             modelMapper.map(productRequestDto, product);
             product = productService.saveProduct(product);
             resultMap.put("status", 200);

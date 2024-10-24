@@ -17,6 +17,7 @@ import com.ls.learnspringb.dtos.responses.VariantResponseDto;
 import com.ls.learnspringb.entities.Variant;
 import com.ls.learnspringb.services.VariantService;
 
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/variant")
+@CrossOrigin("*")
 public class VariantRestController {
     
     @Autowired
@@ -76,6 +78,25 @@ public class VariantRestController {
             return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> getVariantById(@PathVariable Long id) {
+        LinkedHashMap<String, Object> resultMap = new LinkedHashMap<>();
+        ModelMapper modelMapper = new ModelMapper();
+        try {
+            Variant variant = variantService.getVariantById(id);
+            VariantResponseDto variantResponseDto = modelMapper.map(variant, VariantResponseDto.class);
+            resultMap.put("status", 200);
+            resultMap.put("message", "success");
+            resultMap.put("data", variantResponseDto);
+            return new ResponseEntity<>(resultMap, HttpStatus.OK);
+        } catch (Exception e) {
+            resultMap.put("status", 500);
+            resultMap.put("message", "failed");
+            resultMap.put("error", e);
+            return new ResponseEntity<>(resultMap, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
     
     @PostMapping("")
     public ResponseEntity<?> saveVariant(@RequestBody VariantRequestDto variantRequestDto) {
@@ -106,7 +127,7 @@ public class VariantRestController {
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         modelMapper.getConfiguration().setSkipNullEnabled(true);
         try {
-            Variant variant = variantService.getActiveVariantById(id);
+            Variant variant = variantService.getVariantById(id);
             modelMapper.map(variantRequestDto, variant);
             variant = variantService.saveVariant(variant);
             resultMap.put("status", 200);
