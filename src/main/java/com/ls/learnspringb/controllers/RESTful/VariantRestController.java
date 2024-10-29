@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequestMapping("/api/variant")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:9002")
 public class VariantRestController {
     
     @Autowired
